@@ -19,13 +19,16 @@ model User {
 }
 
 model Watchlist {
-  id        Int      @id @default(autoincrement())
-  itemId    String   @unique
-  itemUrl   String
-  itemPrice Int
-  newPrices Prices[]
-  userId    String
-  user      User     @relation(fields: [userId], references: [userId])
+  id           Int      @id @default(autoincrement())
+  itemId       String   @unique
+  itemName     String   @db.Text
+  itemImage    String   @db.Text
+  itemUrl      String   @db.Text
+  itemProvider String
+  itemPrice    Int
+  newPrices    Prices[]
+  userId       String
+  user         User     @relation(fields: [userId], references: [userId])
 }
 
 model Prices {

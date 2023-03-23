@@ -2,6 +2,9 @@ import axios from "axios";
 import cheerio, { load } from "cheerio";
 import { Request, Response } from "express";
 import Product from "../../types/ProductType";
+import jwt from "jsonwebtoken";
+import saveToDb from "./saveToDb";
+import { IncomingHttpHeaders } from "http";
 
 const defurl =
   "https://www.amazon.in/HP-RX5500M-Graphics-Flicker-16-e0162AX/dp/B098QBT5KT?ref_=Oct_DLandingS_D_aa6c9481_60";
@@ -41,20 +44,21 @@ async function scrape(url = defurl) {
 
 const scrapeAmazonData = async (req: Request, res: Response) => {
   const data = req.body;
+  // const data = req.body;
 
-  console.log("url is", req.body, req.headers.cookie);
-  //   const price = 5500;
-  console.log("lol");
-  // const productData = await scrape(data.url);
-  const productData = {
-    name: "        Dabur Chyawanprash - 2kg, 3X Immunity, helps build Strength and Stamina       ",
-    price: 595,
-    link: "https://www.amazon.in/DABUR-FC49500210-Dabur-Chyawanprash-Kg/dp/B09P2Z5445/?_encoding=UTF8&pd_rd_w=hbVmm&content-id=amzn1.sym.74cadd4b-23d8-4053-8964-d57bd2df7582&pf_rd_p=74cadd4b-23d8-4053-8964-d57bd2df7582&pf_rd_r=4BGPHMW4ZS2J0TMMDA3G&pd_rd_wg=J7opb&pd_rd_r=6cdba29e-dc00-46a2-8703-fce648b0ac98&ref_=pd_gw_trq_ed_k0q65tpn",
-    imageUrl:
-      "https://m.media-amazon.com/images/I/41Zg0VBysML._SX300_SY300_QL70_ML2_.jpg",
-  };
+  // console.log("url is", req.body, req.headers.cookie);
+  // const { authtoken } = req.headers;
 
-  res.json({ productData, provider: "amazon" });
+  // assuming `req` is of type `Request`
+  const { authtoken } = req.headers;
+
+  console.log("auth token ", authtoken);
+
+  const productData = await scrape(data.url);
+
+  const savedItemId = await saveToDb(authtoken, productData, "amazon");
+
+  res.json({ productData, provider: "amazon", savedItemId });
 };
 
 export default scrapeAmazonData;
