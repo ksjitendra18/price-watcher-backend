@@ -11,7 +11,7 @@ const defurl =
 
 const product: Product = { name: "", price: 0, link: "", imageUrl: "" };
 
-async function scrape(url = defurl) {
+export async function scrapeAmazon(url = defurl) {
   // fetch the html
   const { data } = await axios.get(url);
 
@@ -32,7 +32,7 @@ async function scrape(url = defurl) {
     .replace(/[,.]/g, "");
 
   const priceNum = parseFloat(price);
-  console.log("price", priceNum, typeof priceNum);
+  // console.log("price", priceNum, typeof priceNum);
   product.price = priceNum;
 
   return product;
@@ -54,7 +54,7 @@ const scrapeAmazonData = async (req: Request, res: Response) => {
 
   console.log("auth token ", authtoken);
 
-  const productData = await scrape(data.url);
+  const productData = await scrapeAmazon(data.url);
 
   const savedItemId = await saveToDb(authtoken, productData, "amazon");
 

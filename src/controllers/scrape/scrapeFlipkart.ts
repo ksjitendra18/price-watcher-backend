@@ -9,7 +9,7 @@ const defurl =
 
 const product: Product = { name: "", price: 0, link: "", imageUrl: "" };
 
-async function scrape(url = defurl) {
+export async function scrapeFlipkart(url = defurl) {
   const { data } = await axios.get(url);
 
   const $ = load(data);
@@ -28,7 +28,7 @@ async function scrape(url = defurl) {
     .replace(/[^0-9]/g, "");
 
   const priceNum = parseFloat(price);
-  console.log("price", priceNum, typeof priceNum);
+  // console.log("price", priceNum, typeof priceNum);
   product.price = priceNum;
 
   return product;
@@ -37,7 +37,7 @@ async function scrape(url = defurl) {
 const scrapeFlipkartData = async (req: Request, res: Response) => {
   const data = req.body;
   const { authtoken } = req.headers;
-  const productData = await scrape(data.url);
+  const productData = await scrapeFlipkart(data.url);
 
   const savedItemId = await saveToDb(authtoken, productData, "flipkart");
 

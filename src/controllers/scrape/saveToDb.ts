@@ -23,16 +23,26 @@ async function saveToDb(
       itemName: productData.name,
       itemImage: productData.imageUrl!,
       itemPrice: productData.price,
+      itemPreviousPrice: productData.price,
+      itemHighestPrice: productData.price,
+      itemLowestPrice: productData.price,
       itemUrl: productData.link,
       itemProvider: provider,
       userId: decoded.userId!,
     },
-    select: { itemId: true },
+    select: { itemId: true, itemPrice: true },
+  });
+
+  await prisma.prices.create({
+    data: {
+      watchlistId: watchedProduct.itemId,
+      price: watchedProduct.itemPrice,
+    },
   });
 
   console.log("watched product is watched product", watchedProduct);
 
-  return watchedProduct;
+  return watchedProduct.itemId;
 }
 
 export default saveToDb;
