@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
-const prisma = new PrismaClient();
+import prisma from "../../utils/prisma";
 const secret = process.env.JWT_SECRET;
 
 const authStatus = async (req: Request, res: Response) => {

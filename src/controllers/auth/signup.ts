@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { customAlphabet } from "nanoid";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-const prisma = new PrismaClient();
+import prisma from "../../utils/prisma";
 
 const signupUser = async (req: Request, res: Response) => {
   const nanoid = customAlphabet(

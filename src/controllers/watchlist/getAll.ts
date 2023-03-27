@@ -1,9 +1,6 @@
-import jwt from "jsonwebtoken";
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import JwtDecoded from "../../types/JwtDecoded";
-
-const prisma = new PrismaClient();
+import jwt from "jsonwebtoken";
+import prisma from "../../utils/prisma";
 
 const getAllWatchlist = async (req: Request, res: Response) => {
   const secret = process.env.JWT_SECRET;
@@ -11,8 +8,6 @@ const getAllWatchlist = async (req: Request, res: Response) => {
   const token = req.header("auth-token");
 
   try {
-    console.log("inside try", token);
-
     if (token === "undefined" || token === null) {
       return res
         .status(401)
@@ -23,8 +18,6 @@ const getAllWatchlist = async (req: Request, res: Response) => {
     const allWatchlist = await prisma.watchlist.findMany({
       where: { userId: decoded.userId },
     });
-
-    console.log(allWatchlist);
 
     if (allWatchlist.length < 1) {
       res.status(200).json({ success: true, data: [] });

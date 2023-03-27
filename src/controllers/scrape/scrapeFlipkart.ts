@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio, { load } from "cheerio";
+import { load } from "cheerio";
 import { Request, Response } from "express";
 import Product from "../../types/ProductType";
 import saveToDb from "./saveToDb";

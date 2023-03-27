@@ -8,9 +8,10 @@ import authRouter from "./routes/auth";
 import scrapeRouter from "./routes/scrape";
 import watchlistRouter from "./routes/watchlist";
 import predictRouter from "./routes/predict";
+import pricesRouter from "./routes/prices";
+import prisma from "./utils/prisma";
 // cron scheduler
 import cron from "node-cron";
-import { PrismaClient } from "@prisma/client";
 
 import intiliaseScrape from "./controllers/cron/performScrape";
 const app: Express = express();
@@ -30,15 +31,14 @@ app.use(bodyParser.json());
 app.use("/scrape", scrapeRouter);
 app.use("/watchlist", watchlistRouter);
 app.use("/predict", predictRouter);
+app.use("/prices", pricesRouter);
 app.use("/auth", authRouter);
 
 app.listen(8000, () => {
   console.log("App running🚀");
 });
 
-const prisma = new PrismaClient();
-
-cron.schedule(" * * * * *", async () => {
+cron.schedule(" */30 * * * *", async () => {
   const itemDetails = await prisma.watchlist.findMany({
     select: {
       itemId: true,

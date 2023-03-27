@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 import Product from "../../types/ProductType";
 
-const prisma = new PrismaClient();
+import prisma from "../../utils/prisma";
 
 async function saveToDb(
   authToken: string | string[] | undefined,
@@ -40,7 +40,7 @@ async function saveToDb(
     },
   });
 
-  console.log("watched product is watched product", watchedProduct);
+  // console.log("watched product is watched product", watchedProduct);
 
   return watchedProduct.itemId;
 }

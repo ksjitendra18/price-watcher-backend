@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import scrapeAmazonData, { scrapeAmazon } from "../scrape/scrapeAmazon";
 import { scrapeFlipkart } from "../scrape/scrapeFlipkart";
 
-const prisma = new PrismaClient();
+import prisma from "../../utils/prisma";
 interface ItemDetails {
   itemId: string;
   itemProvider: string;
@@ -58,8 +58,6 @@ async function performScrape(itemDetail: ItemDetails) {
         },
       });
     }
-
-    // console.log("updated amazon", updated);
   } else if (itemDetail.itemProvider === "flipkart") {
     const productDetails = await scrapeFlipkart(itemDetail.itemUrl);
 

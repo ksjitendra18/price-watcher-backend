@@ -17,7 +17,7 @@ export const prediction = async (req: Request, res: Response) => {
     os,
   } = req.body;
 
-  console.log(req.body);
+  // console.log(req.body);
 
   const baseUrl = process.env.BASE_URL;
 
@@ -25,7 +25,7 @@ export const prediction = async (req: Request, res: Response) => {
 
   const url = baseUrl + apiUrl;
 
-  console.log("url", url);
+  // console.log("url", url);
 
   //   const result = await axios.get(url);
   const result = await axios.get(url);
