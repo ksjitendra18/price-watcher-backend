@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import axios from "axios";
 import { Request, Response } from "express";
 import prisma from "../../utils/prisma";
 export const getAllPrices = async (req: Request, res: Response) => {
-  const price = [10];
   const itemId = req.query.itemId;
 
   const prices = await prisma.prices.findMany({

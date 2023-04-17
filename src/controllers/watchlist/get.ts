@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import JwtDecoded from "../../types/JwtDecoded";
 
 import prisma from "../../utils/prisma";
 
